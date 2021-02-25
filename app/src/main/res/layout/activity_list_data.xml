@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar1"
-        android:background="#abab9a"
+        android:background="#708238"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:navigationIcon="?attr/homeAsUpIndicator"/>
     <LinearLayout
@@ -66,6 +66,7 @@
             android:padding="10dp"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/startPlanting"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="12dp"
@@ -73,6 +74,7 @@
                 android:layout_marginRight="20dp"
                 android:text="START PLANTING"/>
             <Button
+                android:id="@+id/tutorialButton"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
