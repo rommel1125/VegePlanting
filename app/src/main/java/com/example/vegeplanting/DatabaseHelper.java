@@ -1,9 +1,11 @@
 package com.example.vegeplanting;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +14,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Vegetable.db";
     public static final String TABLE_NAME = "vegetable_table";
+    public static final String PLAN_TABLE = "plan_table";
+    public static final String NOTE_TABLE = "note_table";
     public static final int version = 1;
 
     public DatabaseHelper(@Nullable Context context) {
@@ -21,6 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DESCRIPTION TEXT)");
+        db.execSQL("CREATE TABLE " + PLAN_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DATEPLANTED TEXT, IMAGE BLOB)");
+        db.execSQL("CREATE TABLE " + NOTE_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, NOTEDATE TEXT)");
         db.execSQL("INSERT INTO " + TABLE_NAME + " (VEGENAME,DESCRIPTION) VALUES ('EGGPLANT','DESCRIPTION\n\n" +
                 "Eggplant, Solanum melongena, is a tropical, herbaceous, perennial plant, closely related to tomato, in the family Solanaceae which is grown for its edible fruit. The plants has a branching stem and simple, long, flat. coarsely lobed leaves which are green in color and are arranged alternately on the branches. The leaves can measure 10 to 20 cm (4–8 in) long and 5 to 10 cm (2–4 in) broad. The plant produces purple flowers which are 3–5 cm (1.2–2.0 in) in diameter. The fruit is a large, fleshy ovoid berry which can reach 40 cm (15.7 in) in length, with glossy smooth skin and numerous small seeds. The color of the fruit is variable and can be white, green, yellow, purple or black. Eggplants can reach up to 1.5 m (4.9 ft) in height and although they are perennial plants, they are most commonly grown as annuals. Eggplant may also be referred to as aubergine or guinea squash and originates from the Indian subcontinent.\n" +
                 "\n\n\n" +
@@ -112,11 +118,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PLAN_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + NOTE_TABLE);
     }
 
     public Cursor getDescription(String name) {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE VEGENAME ='" + name + "'", null);
         return cursor;
+    }
+
+    public Cursor getPlan(String sql){
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.rawQuery(sql,null);
+    }
+
+    public void deletePlan(int id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "DELETE FROM "+PLAN_TABLE+" WHERE ID=?";
+
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindDouble(1,(double)id);
+
+        statement.execute();
+        database.close();
+    }
+//    public Cursor getAllPlan() {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        String query = "SELECT * FROM " + PLAN_TABLE;
+//        Cursor cursor = db.rawQuery(query, null);
+//
+//        return cursor;
+//    }
+
+//    public boolean insertPlan(String vegetableName, String datePlanted) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("VEGENAME", vegetableName);
+//        contentValues.put("DATEPLANTED", datePlanted);
+//
+//        long result = db.insert(PLAN_TABLE, null, contentValues);
+//        if (result == -1) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
+
+    public void insertPlanWithImage(String vegetableName, String datePlanted, byte[] image){
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql ="INSERT INTO "+PLAN_TABLE+" VALUES(NULL,?,?,?)";
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+
+        statement.bindString(1,vegetableName);
+        statement.bindString(2,datePlanted);
+        statement.bindBlob(3,image);
+
+        statement.executeInsert();
     }
 }

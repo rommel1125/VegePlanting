@@ -1,5 +1,6 @@
 package com.example.vegeplanting;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,13 +10,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.icu.text.SimpleDateFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 
 public class ListDataActivity extends AppCompatActivity {
 private Toolbar toolbar;
@@ -23,14 +32,17 @@ private TextView vegeName,textDescription;
 private ImageView imageView;
 private Button tutorialButton,startPlanting;
 private DatabaseHelper databaseHelper;
+private String currentDate,nameCompare;
 
 public static final String EXTRA_URI = "com.example.vegetableplantingtutorial.EXTRA_URI";
 public static final String EXTRA_VEGETABLE_ID = "com.example.vegetableplantingtutorial.EXTRA_VEGETABLE_ID";
+private static final String DATE_FORMAT = "MM/dd/yyyy";
 
 
 private String name,des,number;
 private int image;
     private String videoUrl;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +93,37 @@ private int image;
                 openTutorialActivity();
             }
         });
+
+//GETTING CURRENT DATE
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        Calendar calendar = Calendar.getInstance();
+        currentDate = sdf.format(calendar.getTime());
+
+
+//START PLANTING
+        startPlanting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    databaseHelper.insertPlanWithImage(
+                            vegeName.getText().toString().trim(),
+                            currentDate.trim(),
+                            imageViewToByte(imageView)
+                    );
+                    Toast.makeText(ListDataActivity.this,"Added to My Plan",Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public static byte[] imageViewToByte(ImageView imageView) {
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
     }
 
     private void Description(){
