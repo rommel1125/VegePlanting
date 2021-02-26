@@ -3,6 +3,7 @@
     package="com.example.vegeplanting">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +11,9 @@
         android:roundIcon="@mipmap/ic_vegetable_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VegePlanting">
-        <activity android:name=".OnlineTutorialActivity"></activity>
+        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".PlanItemActivity" />
+        <activity android:name=".OnlineTutorialActivity" />
         <activity android:name=".OfflineTutorialActivity" />
         <activity
             android:name=".MyAppIntro"

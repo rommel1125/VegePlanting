@@ -72,11 +72,13 @@
                 android:textSize="12dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
+                android:backgroundTint="#708238"
                 android:text="START PLANTING"/>
             <Button
                 android:id="@+id/tutorialButton"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:backgroundTint="#708238"
                 android:layout_height="wrap_content"
                 android:text="TUTORIAL"/>
         </LinearLayout>

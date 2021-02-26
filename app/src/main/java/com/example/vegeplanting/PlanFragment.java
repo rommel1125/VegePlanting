@@ -1,7 +1,10 @@
 package com.example.vegeplanting;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +40,9 @@ public class PlanFragment extends Fragment {
     private PlanListAdapter adapter = null;
     private ImageView imageView;
 
+    private String plantName[];
+    private String plantedDate[];
+
     private static final String DATE_FORMAT = "MM/dd/yyyy";
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -62,8 +68,9 @@ public class PlanFragment extends Fragment {
             String name = cursor.getString(1);
             String date = cursor.getString(2);
             byte[] image = cursor.getBlob(3);
+            String count = cursor.getString(4);
 
-            list.add(new Model(id,name,date,image));
+            list.add(new Model(id,name,date,image,count));
         }
         adapter.notifyDataSetChanged();
         if (list.size()==0){
@@ -82,9 +89,20 @@ public class PlanFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0){
-                            //view
+                            //VIEW
+                            Intent intent = new Intent(getActivity(),PlanItemActivity.class);
+                            adapter = new PlanListAdapter(getActivity(),R.layout.list_item,list);
+                            Model model = list.get(position);
+                            String name = model.getVegeName().toString();
+                            String date = model.getDatePlanted().toString();
+                            String count = model.getVegeCount().toString();
+                            intent.putExtra("name",name);
+                            intent.putExtra("date",date);
+                            intent.putExtra("count",count);
+                            startActivity(intent);
                         }
                         if (which == 1){
+                            //DELETE
                             Cursor c = databaseHelper.getPlan("SELECT ID FROM PLAN_TABLE");
                             ArrayList<Integer> arrID = new ArrayList<Integer>();
                             while(c.moveToNext()){
@@ -99,6 +117,22 @@ public class PlanFragment extends Fragment {
             }
         });
 
+//LIST VIEW ITEM CLICK
+        planListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),PlanItemActivity.class);
+                adapter = new PlanListAdapter(getActivity(),R.layout.list_item,list);
+                Model model = list.get(position);
+                String name = model.getVegeName().toString();
+                String date = model.getDatePlanted().toString();
+                String count = model.getVegeCount().toString();
+                intent.putExtra("name",name);
+                intent.putExtra("date",date);
+                intent.putExtra("count",count);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -135,8 +169,9 @@ public class PlanFragment extends Fragment {
             String name = cursor.getString(1);
             String date = cursor.getString(2);
             byte[] image = cursor.getBlob(3);
+            String count = cursor.getString(4);
 
-            list.add(new Model(id,name,date,image));
+            list.add(new Model(id,name,date,image,count));
         }
         adapter.notifyDataSetChanged();
         if (list.size()==0){

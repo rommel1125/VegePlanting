@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         imageList.add(new SlideModel(R.drawable.sitaw1,"String Beans", ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.kalabasa1,"Squash", ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.parsley1,"Parsley", ScaleTypes.FIT));
-        imageList.add(new SlideModel(R.drawable.kangkong1,"Water Spinach", ScaleTypes.FIT));
+        imageList.add(new SlideModel(R.drawable.waterspinachtry,"Water Spinach", ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.lettuce1,"Lettuce", ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.upo1,"Bottle gourd", ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.ampalaya1,"Bitter Melon", ScaleTypes.FIT));

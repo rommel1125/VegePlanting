@@ -17,8 +17,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +81,8 @@ private int image;
         final int resourceId = resources.getIdentifier(vegetable.getImageName(), "drawable", getPackageName());
         imageView.setImageResource(resourceId);
 
+        this.videoUrl = vegetable.getUrl();
+
 //CALLING Description Method
         Description();
 
@@ -104,16 +109,48 @@ private int image;
         startPlanting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    databaseHelper.insertPlanWithImage(
-                            vegeName.getText().toString().trim(),
-                            currentDate.trim(),
-                            imageViewToByte(imageView)
-                    );
-                    Toast.makeText(ListDataActivity.this,"Added to My Plan",Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ListDataActivity.this);
+                dialog.setTitle("How many seeds ?");
+                final View vegeCount = getLayoutInflater().inflate(R.layout.custom_dialog,null);
+                dialog.setView(vegeCount);
+                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.setNegativeButton("CANCEL", null);
+                final AlertDialog dialog1 = dialog.create();
+                dialog1.show();
+                dialog1.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+                        EditText editText = vegeCount.findViewById(R.id.planVegeCount);
+                        if (wantToCloseDialog){
+                            dialog1.dismiss();
+                        }
+                        else {
+                            if (TextUtils.isEmpty(editText.getText().toString())) {
+                                editText.setError("Cannot be empty !");
+                                editText.requestFocus();
+                            } else {
+                                try {
+                                    databaseHelper.insertPlanWithImage(
+                                            vegeName.getText().toString().trim(),
+                                            currentDate.trim(),
+                                            imageViewToByte(imageView),
+                                            editText.getText().toString().trim()
+                                    );
+                                    Toast.makeText(ListDataActivity.this, "Added to My Plan", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                dialog1.dismiss();
+                            }
+                        }
+                    }
+                });
             }
         });
     }

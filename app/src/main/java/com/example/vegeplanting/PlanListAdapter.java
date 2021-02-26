@@ -39,9 +39,9 @@ public class PlanListAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         ImageView imageView;
-        TextView vegeName,datePlanted;
+        TextView vegeName, datePlanted, vegeCount;
     }
 
     @Override
@@ -50,14 +50,15 @@ public class PlanListAdapter extends BaseAdapter {
         View row = convertView;
         ViewHolder holder = new ViewHolder();
 
-        if (row==null){
+        if (row == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(layout,null);
+            row = inflater.inflate(layout, null);
             holder.vegeName = row.findViewById(R.id.planVegetableName);
             holder.datePlanted = row.findViewById(R.id.planDatePlanted);
             holder.imageView = row.findViewById(R.id.planImage);
+            holder.vegeCount = row.findViewById(R.id.planCount);
             row.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) row.getTag();
         }
         Model model = planList.get(position);
@@ -66,8 +67,9 @@ public class PlanListAdapter extends BaseAdapter {
         holder.datePlanted.setText(model.getDatePlanted());
 
         byte[] planImage = model.getImage();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(planImage,0,planImage.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(planImage, 0, planImage.length);
         holder.imageView.setImageBitmap(bitmap);
+        holder.vegeCount.setText(model.getVegeCount());
 
         return row;
     }

@@ -5,12 +5,14 @@ public class Model {
     private String vegeName;
     private  String datePlanted;
     private byte[] image;
+    private String vegeCount;
 
-    public Model(int id, String vegeName, String datePlanted, byte[] image) {
+    public Model(int id, String vegeName, String datePlanted, byte[] image, String vegeCount) {
         this.id = id;
         this.vegeName = vegeName;
         this.datePlanted = datePlanted;
         this.image = image;
+        this.vegeCount = vegeCount;
     }
 
     public int getId() {
@@ -44,4 +46,8 @@ public class Model {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+    public String getVegeCount(){ return vegeCount; }
+
+    public void setVegeCount(String vegeCount){ this.vegeCount = vegeCount; }
 }

@@ -13,7 +13,7 @@ public class OnlineTutorialActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private WebView webView;
-    private String uri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,8 @@ public class OnlineTutorialActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        uri = intent.getStringExtra(ListDataActivity.EXTRA_URI);
+        String uri = intent.getStringExtra(ListDataActivity.EXTRA_URI);
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(uri);
