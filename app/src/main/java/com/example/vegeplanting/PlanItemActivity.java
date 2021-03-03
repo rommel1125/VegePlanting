@@ -153,6 +153,7 @@ public class PlanItemActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 dialog1.dismiss();
+                                databaseHelper.close();
                             }
                         }
                     }
@@ -176,6 +177,7 @@ public class PlanItemActivity extends AppCompatActivity {
                                 arrID.add(c.getInt(0));
                             }
                             showDialogUpdate(PlanItemActivity.this, arrID.get(position));
+                            databaseHelper.close();
                         }
                         if (which == 1) {
                             //Delete
@@ -185,6 +187,7 @@ public class PlanItemActivity extends AppCompatActivity {
                                 arrID.add(c.getInt(0));
                             }
                             showDialogDelete(arrID.get(position));
+                            databaseHelper.close();
                         }
                     }
                 });
@@ -209,6 +212,7 @@ public class PlanItemActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.e("Delete error", e.getMessage());
                 }
+                databaseHelper.close();
             }
         });
         dialogDelete.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -256,6 +260,7 @@ public class PlanItemActivity extends AppCompatActivity {
                     } catch (Exception error) {
                         Log.e("Edit error", error.getMessage());
                     }
+                    databaseHelper.close();
                 }
             }
         });
@@ -275,6 +280,7 @@ public class PlanItemActivity extends AppCompatActivity {
             mList.add(new NoteModel(id, vegetableName, dateOfNote, note, vegID));
         }
         mAdapter.notifyDataSetChanged();
+        databaseHelper.close();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

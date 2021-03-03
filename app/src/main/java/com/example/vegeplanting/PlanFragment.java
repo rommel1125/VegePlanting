@@ -108,6 +108,7 @@ public class PlanFragment extends Fragment {
                                 arrID.add(c.getInt(0));
                             }
                             showDialogDelete(arrID.get(position));
+                            databaseHelper.close();
                         }
                     }
                 });
@@ -151,6 +152,7 @@ public class PlanFragment extends Fragment {
                     Log.e("error",e.getMessage());
                 }
                 updatePlanList();
+                databaseHelper.close();
             }
         });
         dialogDelete.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -175,6 +177,7 @@ public class PlanFragment extends Fragment {
             list.add(new Model(id,name,date,image,count));
         }
         adapter.notifyDataSetChanged();
+        databaseHelper.close();
         if (list.size()==0){
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new EmptyFragment()).commit();
