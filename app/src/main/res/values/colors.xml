@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="app_green">#3DDC84</color>
     <color name="bg_green">#2eb62c</color>
+    <color name="highlight_green">#056100</color>
+
+    <style name="MyHintStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#056100</item>
+    </style>
 </resources>

@@ -98,9 +98,31 @@
                     android:layout_height="wrap_content"
                     android:text="VIEW CALENDAR"
                     android:backgroundTint="#708238"/>
+                <Button
+                    android:id="@+id/addNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ADD NOTE"
+                    android:backgroundTint="#708238"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NOTES"
+                    android:textSize="20dp"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="#056100"/>
+                <ListView
+                    android:id="@+id/noteListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

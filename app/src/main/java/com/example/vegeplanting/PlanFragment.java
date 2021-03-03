@@ -40,9 +40,6 @@ public class PlanFragment extends Fragment {
     private PlanListAdapter adapter = null;
     private ImageView imageView;
 
-    private String plantName[];
-    private String plantedDate[];
-
     private static final String DATE_FORMAT = "MM/dd/yyyy";
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -96,9 +93,11 @@ public class PlanFragment extends Fragment {
                             String name = model.getVegeName().toString();
                             String date = model.getDatePlanted().toString();
                             String count = model.getVegeCount().toString();
+                            int id = model.getId();
                             intent.putExtra("name",name);
                             intent.putExtra("date",date);
                             intent.putExtra("count",count);
+                            intent.putExtra("id",id);
                             startActivity(intent);
                         }
                         if (which == 1){
@@ -127,9 +126,11 @@ public class PlanFragment extends Fragment {
                 String name = model.getVegeName().toString();
                 String date = model.getDatePlanted().toString();
                 String count = model.getVegeCount().toString();
+                int id1 = model.getId();
                 intent.putExtra("name",name);
                 intent.putExtra("date",date);
                 intent.putExtra("count",count);
+                intent.putExtra("id",id1);
                 startActivity(intent);
             }
         });

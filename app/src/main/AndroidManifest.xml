@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_vegetable_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VegePlanting">
+        <activity android:name=".NoteActivity"></activity>
         <activity android:name=".AppIntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

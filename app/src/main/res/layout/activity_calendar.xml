@@ -32,6 +32,10 @@
             android:layout_gravity="center_horizontal"
             android:minDate="01/01/2020"
             android:maxDate="12/30/2100"/>
+        <ListView
+            android:id="@+id/SpecificNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

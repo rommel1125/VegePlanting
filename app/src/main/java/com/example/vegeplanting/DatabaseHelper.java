@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DESCRIPTION TEXT)");
         db.execSQL("CREATE TABLE " + PLAN_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DATEPLANTED TEXT, IMAGE BLOB, VEGECOUNT TEXT)");
-        db.execSQL("CREATE TABLE " + NOTE_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, NOTEDATE TEXT, NOTE TEXT)");
+        db.execSQL("CREATE TABLE " + NOTE_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, NOTEDATE TEXT, NOTE TEXT, VEGEID INTEGER)");
         db.execSQL("INSERT INTO " + TABLE_NAME + " (VEGENAME,DESCRIPTION) VALUES ('EGGPLANT','DESCRIPTION\n\n" +
                 "Eggplant, Solanum melongena, is a tropical, herbaceous, perennial plant, closely related to tomato, in the family Solanaceae which is grown for its edible fruit. The plants has a branching stem and simple, long, flat. coarsely lobed leaves which are green in color and are arranged alternately on the branches. The leaves can measure 10 to 20 cm (4–8 in) long and 5 to 10 cm (2–4 in) broad. The plant produces purple flowers which are 3–5 cm (1.2–2.0 in) in diameter. The fruit is a large, fleshy ovoid berry which can reach 40 cm (15.7 in) in length, with glossy smooth skin and numerous small seeds. The color of the fruit is variable and can be white, green, yellow, purple or black. Eggplants can reach up to 1.5 m (4.9 ft) in height and although they are perennial plants, they are most commonly grown as annuals. Eggplant may also be referred to as aubergine or guinea squash and originates from the Indian subcontinent.\n" +
                 "\n\n\n" +
@@ -157,6 +157,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         statement.bindString(4, vegeCount);
 
         statement.executeInsert();
+    }
+
+    public void insertNote(String vegename, String note, String dateOfNote, int vegeid) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "INSERT INTO " + NOTE_TABLE + " VALUES(NULL,?,?,?,?)";
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+
+        statement.bindString(1, vegename);
+        statement.bindString(2, dateOfNote);
+        statement.bindString(3, note);
+        statement.bindDouble(4, (double)vegeid);
+
+        statement.executeInsert();
+    }
+
+    public Cursor getNote(String sql) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.rawQuery(sql, null);
+    }
+
+    public void updateNote(String note, int id, int vegeid) {
+        SQLiteDatabase database = getWritableDatabase();
+        String sql = "UPDATE " + NOTE_TABLE + " SET NOTE=? WHERE ID=? AND VEGEID=?";
+
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.bindString(1, note);
+        statement.bindDouble(2,(double) id);
+        statement.bindDouble(3,(double) vegeid);
+
+        statement.execute();
+        database.close();
+    }
+
+    public void deleteNote(int id,int vegeid) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "DELETE FROM " + NOTE_TABLE + " WHERE ID=? AND VEGEID=?";
+
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindDouble(1, (double) id);
+        statement.bindDouble(2,(double) vegeid);
+
+        statement.execute();
+        database.close();
     }
 //    public Cursor getAllPlan() {
 //        SQLiteDatabase db = this.getReadableDatabase();

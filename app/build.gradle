@@ -39,5 +39,8 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    compile 'com.github.sundeepk:compact-calendar-view:3.0.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
