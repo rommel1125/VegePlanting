@@ -66,8 +66,9 @@ public class PlanFragment extends Fragment {
             String date = cursor.getString(2);
             byte[] image = cursor.getBlob(3);
             String count = cursor.getString(4);
+            String harvestDate = cursor.getString(5);
 
-            list.add(new Model(id,name,date,image,count));
+            list.add(new Model(id,name,date,image,count,harvestDate));
         }
         adapter.notifyDataSetChanged();
         if (list.size()==0){
@@ -94,10 +95,12 @@ public class PlanFragment extends Fragment {
                             String date = model.getDatePlanted().toString();
                             String count = model.getVegeCount().toString();
                             int id = model.getId();
+                            String harvestDate = model.getHarvestDate().toString();
                             intent.putExtra("name",name);
                             intent.putExtra("date",date);
                             intent.putExtra("count",count);
                             intent.putExtra("id",id);
+                            intent.putExtra("harvestDate",harvestDate);
                             startActivity(intent);
                         }
                         if (which == 1){
@@ -128,10 +131,12 @@ public class PlanFragment extends Fragment {
                 String date = model.getDatePlanted().toString();
                 String count = model.getVegeCount().toString();
                 int id1 = model.getId();
+                String harvestDate = model.getHarvestDate().toString();
                 intent.putExtra("name",name);
                 intent.putExtra("date",date);
                 intent.putExtra("count",count);
                 intent.putExtra("id",id1);
+                intent.putExtra("harvestDate",harvestDate);
                 startActivity(intent);
             }
         });
@@ -173,8 +178,9 @@ public class PlanFragment extends Fragment {
             String date = cursor.getString(2);
             byte[] image = cursor.getBlob(3);
             String count = cursor.getString(4);
+            String harvestDate = cursor.getString(5);
 
-            list.add(new Model(id,name,date,image,count));
+            list.add(new Model(id,name,date,image,count,harvestDate));
         }
         adapter.notifyDataSetChanged();
         databaseHelper.close();

@@ -243,7 +243,7 @@
         "url" : "https://youtu.be/TS_yDySB92s",
         "image" : "okra",
         "category" : "1",
-        "days": "150",
+        "days": "65",
         "steps":  [
             {
                 "step_name" : "STEP 1",
@@ -506,7 +506,7 @@
         "url" : "https://youtu.be/liFdBSrM62Q",
         "image" : "parsley",
         "category" : "2",
-        "days": "365",
+        "days": "90",
         "steps" : [
             {
                 "step_name" : "STEP 1",
@@ -764,7 +764,7 @@
         "url" : "https://youtu.be/Q6jQ5ZvoDt0",
         "image" : "bottlegourd",
         "category" : "4",
-        "days": "70",
+        "days": "60",
         "steps": [
             {
                 "step_name": "STEP 1",
@@ -860,7 +860,7 @@
         "url" : "https://youtu.be/5vvQyruajQk",
         "image" : "bittermelon",
         "category" : "4",
-        "days": "100",
+        "days": "120",
         "steps": [
             {
                 "step_name": "STEP 1",

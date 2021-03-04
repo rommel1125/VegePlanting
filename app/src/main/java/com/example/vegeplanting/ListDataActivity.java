@@ -36,6 +36,10 @@ private ImageView imageView;
 private Button tutorialButton,startPlanting;
 private DatabaseHelper databaseHelper;
 private String currentDate,nameCompare;
+private String harvestDate;
+private int days = 0;
+private Calendar calendar;
+private SimpleDateFormat sdf;
 
 public static final String EXTRA_URI = "com.example.vegetableplantingtutorial.EXTRA_URI";
 public static final String EXTRA_VEGETABLE_ID = "com.example.vegetableplantingtutorial.EXTRA_VEGETABLE_ID";
@@ -100,10 +104,11 @@ private int image;
         });
 
 //GETTING CURRENT DATE
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        Calendar calendar = Calendar.getInstance();
+        sdf = new SimpleDateFormat(DATE_FORMAT);
+        calendar = Calendar.getInstance();
         currentDate = sdf.format(calendar.getTime());
-
+//GET HARVEST DATE
+        getHarvestDate();
 
 //START PLANTING
         startPlanting.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +145,8 @@ private int image;
                                             vegeName.getText().toString().trim(),
                                             currentDate.trim(),
                                             imageViewToByte(imageView),
-                                            editText.getText().toString().trim()
+                                            editText.getText().toString().trim(),
+                                            harvestDate
                                     );
                                     Toast.makeText(ListDataActivity.this, "Added to My Plan", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
@@ -153,6 +159,60 @@ private int image;
                 });
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void getHarvestDate(){
+        if (vegeName.getText().toString().equals("EGGPLANT")) {
+            days = 125;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("TOMATO")) {
+            days = 55;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("OKRA")) {
+            days = 65;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("STRING BEANS")) {
+            days = 60;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("SQUASH")) {
+            days = 100;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("PARSLEY")) {
+            days = 60;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("WATER SPINACH")) {
+            days = 60;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("LETTUCE")) {
+            days = 50;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("BOTTLE GOURD")) {
+            days = 60;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
+        else if (vegeName.getText().toString().equals("BITTER MELON")) {
+            days = 100;
+            calendar.add(Calendar.DATE, days);
+            harvestDate = sdf.format(calendar.getTime());
+        }
     }
 
     public static byte[] imageViewToByte(ImageView imageView) {

@@ -16,6 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "vegetable_table";
     public static final String PLAN_TABLE = "plan_table";
     public static final String NOTE_TABLE = "note_table";
+    public static final String CALENDAR_TABLE = "calendar_table";
     public static final int version = 1;
 
     public DatabaseHelper(@Nullable Context context) {
@@ -25,7 +26,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DESCRIPTION TEXT)");
-        db.execSQL("CREATE TABLE " + PLAN_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DATEPLANTED TEXT, IMAGE BLOB, VEGECOUNT TEXT)");
+        db.execSQL("CREATE TABLE " + PLAN_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DATEPLANTED TEXT, IMAGE BLOB, VEGECOUNT TEXT, HARVESTDATE TEXT)");
+//        db.execSQL("CREATE TABLE " + CALENDAR_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, DATEPLANTED INTEGER, HARVESTDATE INTEGER, )");
         db.execSQL("CREATE TABLE " + NOTE_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, NOTEDATE TEXT, NOTE TEXT, VEGEID INTEGER)");
         db.execSQL("INSERT INTO " + TABLE_NAME + " (VEGENAME,DESCRIPTION) VALUES ('EGGPLANT','DESCRIPTION\n\n" +
                 "Eggplant, Solanum melongena, is a tropical, herbaceous, perennial plant, closely related to tomato, in the family Solanaceae which is grown for its edible fruit. The plants has a branching stem and simple, long, flat. coarsely lobed leaves which are green in color and are arranged alternately on the branches. The leaves can measure 10 to 20 cm (4–8 in) long and 5 to 10 cm (2–4 in) broad. The plant produces purple flowers which are 3–5 cm (1.2–2.0 in) in diameter. The fruit is a large, fleshy ovoid berry which can reach 40 cm (15.7 in) in length, with glossy smooth skin and numerous small seeds. The color of the fruit is variable and can be white, green, yellow, purple or black. Eggplants can reach up to 1.5 m (4.9 ft) in height and although they are perennial plants, they are most commonly grown as annuals. Eggplant may also be referred to as aubergine or guinea squash and originates from the Indian subcontinent.\n" +
@@ -145,9 +147,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void insertPlanWithImage(String vegetableName, String datePlanted, byte[] image, String vegeCount) {
+    public void insertPlanWithImage(String vegetableName, String datePlanted, byte[] image, String vegeCount, String harvestDate) {
         SQLiteDatabase database = this.getWritableDatabase();
-        String sql = "INSERT INTO " + PLAN_TABLE + " VALUES(NULL,?,?,?,?)";
+        String sql = "INSERT INTO " + PLAN_TABLE + " VALUES(NULL,?,?,?,?,?)";
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
 
@@ -155,6 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         statement.bindString(2, datePlanted);
         statement.bindBlob(3, image);
         statement.bindString(4, vegeCount);
+        statement.bindString(5, harvestDate);
 
         statement.executeInsert();
     }
@@ -168,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         statement.bindString(1, vegename);
         statement.bindString(2, dateOfNote);
         statement.bindString(3, note);
-        statement.bindDouble(4, (double)vegeid);
+        statement.bindDouble(4, (double) vegeid);
 
         statement.executeInsert();
     }
@@ -184,21 +187,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteStatement statement = database.compileStatement(sql);
         statement.bindString(1, note);
-        statement.bindDouble(2,(double) id);
-        statement.bindDouble(3,(double) vegeid);
+        statement.bindDouble(2, (double) id);
+        statement.bindDouble(3, (double) vegeid);
 
         statement.execute();
         database.close();
     }
 
-    public void deleteNote(int id,int vegeid) {
+    public void deleteNote(int id, int vegeid) {
         SQLiteDatabase database = this.getWritableDatabase();
         String sql = "DELETE FROM " + NOTE_TABLE + " WHERE ID=? AND VEGEID=?";
 
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
         statement.bindDouble(1, (double) id);
-        statement.bindDouble(2,(double) vegeid);
+        statement.bindDouble(2, (double) vegeid);
 
         statement.execute();
         database.close();

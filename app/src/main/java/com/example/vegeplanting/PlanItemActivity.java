@@ -31,8 +31,8 @@ import java.util.Calendar;
 
 public class PlanItemActivity extends AppCompatActivity {
 
-    private TextView vegetableName, dateTxt, seedCount;
-    private Button viewCalendar, addNote;
+    private TextView vegetableName, dateTxt, seedCount,harvestTxt;
+    private Button viewCalendar, addNote,addCalendar;
     private Toolbar toolbar2;
     private ImageView imagePlan;
     private ListView noteListView;
@@ -44,6 +44,7 @@ public class PlanItemActivity extends AppCompatActivity {
     private String count;
     private String dateToday;
     private int id;
+    private String harvestDate;
     private DatabaseHelper databaseHelper;
 
     private static final String DATE_FORMAT = "MM/dd/yyyy";
@@ -65,6 +66,8 @@ public class PlanItemActivity extends AppCompatActivity {
         seedCount = findViewById(R.id.seedCount);
         addNote = findViewById(R.id.addNote);
         noteListView = findViewById(R.id.noteListView);
+        addCalendar = findViewById(R.id.addCalendar);
+        harvestTxt = findViewById(R.id.harvestTxt);
 
         mList = new ArrayList<>();
         mAdapter = new NoteListAdapter(this, R.layout.note_row, mList);
@@ -85,6 +88,7 @@ public class PlanItemActivity extends AppCompatActivity {
         date = intent.getStringExtra("date");
         count = intent.getStringExtra("count");
         id = intent.getIntExtra("id", 0);
+        harvestDate = intent.getStringExtra("harvestDate");
 
         noteList();
 
@@ -94,6 +98,7 @@ public class PlanItemActivity extends AppCompatActivity {
 //PUT IN TEXT VIEW'S
         vegetableName.setText(name);
         dateTxt.setText(date);
+        harvestTxt.setText(harvestDate);
         seedCount.setText(count);
         forImage();
 
@@ -196,6 +201,9 @@ public class PlanItemActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+//ADD TO CALENDAR
+
     }
 
     private void showDialogDelete(int idNote) {

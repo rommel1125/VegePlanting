@@ -23,19 +23,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <CalendarView
-            android:background="@drawable/layout_bg1"
+        <TextView
+            android:id="@+id/monthTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dateTextAppearance="@style/CalenderViewDateCustomText"
-            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
-            android:layout_gravity="center_horizontal"
-            android:minDate="01/01/2020"
-            android:maxDate="12/30/2100"/>
-        <ListView
-            android:id="@+id/SpecificNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:text="FEBRUARY"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed-medium"/>
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/compactcalendar_view"
+            android:layout_width="fill_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_height="250dp"
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextSize="12sp"
+            app:compactCalendarDisplayOtherMonthDays="true"
+            app:compactCalendarBackgroundColor="#056100"
+            app:compactCalendarTextColor="#abe098"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="#708238"
+            app:compactCalendarCurrentDayTextColor="#fff"
+            app:compactCalendarMultiEventIndicatorColor="#fff"
+            />
     </LinearLayout>
 
 </LinearLayout>

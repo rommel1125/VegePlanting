@@ -11,20 +11,30 @@
         android:roundIcon="@mipmap/ic_vegetable_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VegePlanting">
-        <activity android:name=".NoteActivity"></activity>
-        <activity android:name=".AppIntroActivity">
+        <activity android:name=".NoteActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".AppIntroActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".PlanItemActivity" />
-        <activity android:name=".OnlineTutorialActivity" />
-        <activity android:name=".OfflineTutorialActivity" />
-        <activity android:name=".ListDataActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".CalendarActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".PlanItemActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OnlineTutorialActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OfflineTutorialActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ListDataActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity" android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
