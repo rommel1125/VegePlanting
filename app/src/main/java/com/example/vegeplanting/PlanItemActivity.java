@@ -47,7 +47,7 @@ public class PlanItemActivity extends AppCompatActivity {
     private String harvestDate;
     private DatabaseHelper databaseHelper;
 
-    private static final String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

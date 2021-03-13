@@ -23,30 +23,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/monthTxt"
+
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="FEBRUARY"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:fontFamily="sans-serif-condensed-medium"/>
-        <com.github.sundeepk.compactcalendarview.CompactCalendarView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/compactcalendar_view"
-            android:layout_width="fill_parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:layout_height="250dp"
-            app:compactCalendarTargetHeight="250dp"
-            app:compactCalendarTextSize="12sp"
-            app:compactCalendarDisplayOtherMonthDays="true"
-            app:compactCalendarBackgroundColor="#056100"
-            app:compactCalendarTextColor="#abe098"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="#708238"
-            app:compactCalendarCurrentDayTextColor="#fff"
-            app:compactCalendarMultiEventIndicatorColor="#fff"
-            />
+            android:layout_height="match_parent"
+            app:headerColor="#056100"
+            app:abbreviationsBarColor="#057005"
+            app:abbreviationsLabelsColor="@color/app_green"
+            app:pagesColor="@color/app_green"
+            app:daysLabelsColor="#000000"
+            app:selectionColor="@color/white"
+            app:anotherMonthsDaysLabelsColor="#0FB158"
+            app:headerLabelColor="@color/app_green"
+            app:todayLabelColor="#BAFB09"/>
+
+
+
     </LinearLayout>
 
 </LinearLayout>
