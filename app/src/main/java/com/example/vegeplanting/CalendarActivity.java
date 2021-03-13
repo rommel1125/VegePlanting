@@ -71,7 +71,7 @@ public class CalendarActivity extends AppCompatActivity {
 //        calender_event.addEvent(event);
 //        calender_event.requestFocus();
 
-
+//asdasdasd
 //        calender_event.initCalderItemClickCallback(new CalenderDayClickListener() {
 //            @Override
 //            public void onGetDay(DayContainerModel dayContainerModel) {
