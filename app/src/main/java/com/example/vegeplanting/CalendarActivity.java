@@ -1,12 +1,18 @@
 package com.example.vegeplanting;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +29,7 @@ import com.skyhope.eventcalenderlibrary.model.DayContainerModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,23 +40,39 @@ import java.util.Locale;
 public class CalendarActivity extends AppCompatActivity {
 
     private Toolbar toolbarCalendar;
-    private CalenderEvent calender_event;
-    private CompactCalendarView compactcalendar_view;
-    private TextView monthTxt;
+    private Calendar calendar;
+    private Date date;
     private CalendarView calendarView;
-    SimpleDateFormat simpleDateFormat;
-    DateFormat dateFormat;
+    private DatabaseHelper databaseHelper;
+    private SimpleDateFormat simpleDateFormat;
+    private String harvestDate = "";
+
+    private ListView eventListView;
+    private ArrayList<EventModel> mList;
+    private EventListAdapter mAdapter = null;
+
+    private int vegeid;
+
+    private static final String DATE_FORMAT = "MM/dd/yyyy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        databaseHelper = new DatabaseHelper(this);
 
         toolbarCalendar = findViewById(R.id.toolbarCalendar);
-//        calender_event = findViewById(R.id.calender_event);
-//        compactcalendar_view = findViewById(R.id.compactcalendar_view);
-//        monthTxt = findViewById(R.id.monthTxt);
         calendarView = findViewById(R.id.calendarView);
+        eventListView = findViewById(R.id.eventListView);
+
+//GET INTENT
+        Intent intent = getIntent();
+        vegeid = intent.getIntExtra("vegeid",0);
+
+//LIST VIEW
+        mList = new ArrayList<>();
+        mAdapter = new EventListAdapter(this,R.layout.event_row,mList);
+        eventListView.setAdapter(mAdapter);
 
         toolbarCalendar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,17 +81,59 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
-        Calendar calendar = Calendar.getInstance();
-        try {
-            calendarView.setDate(calendar);
-        } catch (OutOfDateRangeException e) {
-            e.printStackTrace();
-        }
-        calendar.add(Calendar.DATE, 5);
-        List<EventDay> event = new ArrayList<>();
-        event.add(new EventDay(calendar, R.drawable.ic_event));
-        calendarView.setEvents(event);
 
+        simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        addEvent();
+        if (harvestDate.equals("")) {
+            Toast.makeText(getApplicationContext(),"No events", Toast.LENGTH_LONG).show();
+        }
+        else {
+            try {
+                date = simpleDateFormat.parse(harvestDate);
+                calendar = Calendar.getInstance();
+                calendar.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            List<EventDay> event = new ArrayList<>();
+            event.add(new EventDay(calendar, R.drawable.ic_event));
+            calendarView.setEvents(event);
+        }
+        calendarEvent();
+
+//        Calendar calendar = Calendar.getInstance();
+//        try {
+//            calendarView.setDate(calendar);
+//        } catch (OutOfDateRangeException e) {
+//            e.printStackTrace();
+//        }
+//        List<EventDay> event = new ArrayList<>();
+//        event.add(new EventDay(calendar, R.drawable.ic_event));
+//        calendarView.setEvents(event);
+        eventListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final CharSequence[] items = {"Delete"};
+                AlertDialog.Builder dialog = new AlertDialog.Builder(CalendarActivity.this);
+                dialog.setTitle("Choose an action");
+                dialog.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which==0){
+                            Cursor c = databaseHelper.getCalendarEvent("SELECT * FROM CALENDAR_TABLE");
+                            ArrayList<Integer> arrID = new ArrayList<Integer>();
+                            while(c.moveToNext()){
+                                arrID.add(c.getInt(0));
+                            }
+                            showDeleteDialog(arrID.get(position));
+                            databaseHelper.close();
+                        }
+                    }
+                });
+                dialog.show();
+                return true;
+            }
+        });
 
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
@@ -77,69 +142,59 @@ public class CalendarActivity extends AppCompatActivity {
 //
 //                }
                 Calendar clickedDayCalendar = eventDay.getCalendar();
-                SimpleDateFormat sdf = new SimpleDateFormat(PlanItemActivity.DATE_FORMAT);
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
                 Toast.makeText(getApplicationContext(),sdf.format(clickedDayCalendar.getTime())+" ", Toast.LENGTH_LONG).show();
             }
         });
 
+    }
 
-//        compactcalendar_view.setFirstDayOfWeek(Calendar.SUNDAY);
-//        compactcalendar_view.setUseThreeLetterAbbreviation(true);
-//        compactcalendar_view.shouldDrawIndicatorsBelowSelectedDays(true);
-//        simpleDateFormat = new SimpleDateFormat("MMMM - yyyy", Locale.getDefault());
-//        dateFormat = new SimpleDateFormat("MMMM - yyyy");
-//        Date date = new Date();
-//        monthTxt.setText(dateFormat.format(date));
-//
-//        Event ev1 = new Event(Color.YELLOW, 1615013675000L, "SAMPLE");
-//        compactcalendar_view.addEvent(ev1);
-//        Event ev2 = new Event(Color.BLUE, 1615100075000L, "EXAMPLE");
-//        compactcalendar_view.addEvent(ev2);
-//
-//
-//        compactcalendar_view.setListener(new CompactCalendarView.CompactCalendarViewListener() {
-//            @Override
-//            public void onDayClick(Date dateClicked) {
-//                List<Event> events = compactcalendar_view.getEvents(dateClicked);
-//                if (compactcalendar_view.getEvents(dateClicked).get(0).getData().equals("")){
-//                    Log.d("TAGS","WALANG LAMAN");
-//                }
-//                else {
-//                    Log.d("TAGS", "Date clicked: " + dateClicked + " with events " + compactcalendar_view.getEvents(dateClicked).get(0).getData().toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onMonthScroll(Date firstDayOfNewMonth) {
-//                monthTxt.setText(simpleDateFormat.format(firstDayOfNewMonth));
-//            }
-//        });
+    private void showDeleteDialog(int idEvent) {
+        AlertDialog.Builder dialogDelete = new AlertDialog.Builder(CalendarActivity.this);
+        dialogDelete.setTitle("Warning !!");
+        dialogDelete.setMessage("Are you sure to delete ?");
+        dialogDelete.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                List<EventDay> event = new ArrayList<>();
+                calendarView.setEvents(event);
+                try {
+                    databaseHelper.deleteEvent(idEvent,vegeid);
+                    Toast.makeText(getApplicationContext(),"DELETE", Toast.LENGTH_LONG).show();
+                }catch (Exception e){
+                    Log.e("Error",e.getMessage());
+                }
+                calendarEvent();
+            }
+        });
+        dialogDelete.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialogDelete.show();
+    }
 
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.DATE, 7);
-//        Event event = new Event(calendar.getTimeInMillis(),"ASDASD", Color.BLACK);
-//        Event event1 = new Event(calendar.getTimeInMillis(), "IBA to", Color.YELLOW);
-//        calender_event.addEvent(event1);
-//        calender_event.addEvent(event);
-//        calender_event.requestFocus();
+    public void calendarEvent(){
+        Cursor cursor = databaseHelper.getCalendarEvent("SELECT * FROM CALENDAR_TABLE WHERE VEGEID = "+vegeid);
+        mList.clear();
+        while (cursor.moveToNext()){
+            int id = cursor.getInt(0);
+            String datePlanted = cursor.getString(1);
+            String harvestDate = cursor.getString(2);
+            int vegeID = cursor.getInt(3);
+            String description = cursor.getString(4);
 
-//asdasdasd
-//        calender_event.initCalderItemClickCallback(new CalenderDayClickListener() {
-//            @Override
-//            public void onGetDay(DayContainerModel dayContainerModel) {
-////CHECK IF DATE HAS EVENT
-//                if (dayContainerModel.isHaveEvent()){
-//                    Toast.makeText(CalendarActivity.this,dayContainerModel.getEvent().getEventText(),Toast.LENGTH_LONG).show();
-//                }
-//                else {
-//                    Log.d("asdasdasd", "WALA");
-//                }
-//
-//            }
-//        });
-
-//        long epoch = System.currentTimeMillis()/1000;
-//        String ll = String.valueOf(epoch);
-//        Toast.makeText(CalendarActivity.this,ll,Toast.LENGTH_LONG).show();
+            mList.add(new EventModel(id,datePlanted,harvestDate,vegeID,description));
+        }
+        mAdapter.notifyDataSetChanged();
+        databaseHelper.close();
+    }
+    public void addEvent(){
+        Cursor cursor = databaseHelper.getCalendarEvent("SELECT * FROM CALENDAR_TABLE WHERE VEGEID = "+vegeid);
+        while (cursor.moveToNext()){
+            harvestDate = cursor.getString(2);
+        }
     }
 }

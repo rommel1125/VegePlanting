@@ -152,12 +152,14 @@ public class PlanFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     databaseHelper.deletePlan(idPlan);
+                    databaseHelper.deleteCalendar(idPlan);
+                    databaseHelper.deleteNote2(idPlan);
                     Toast.makeText(getActivity(),"Delete successfully",Toast.LENGTH_SHORT).show();
+                    databaseHelper.close();
                 }catch (Exception e){
                     Log.e("error",e.getMessage());
                 }
                 updatePlanList();
-                databaseHelper.close();
             }
         });
         dialogDelete.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -183,11 +185,11 @@ public class PlanFragment extends Fragment {
             list.add(new Model(id,name,date,image,count,harvestDate));
         }
         adapter.notifyDataSetChanged();
-        databaseHelper.close();
         if (list.size()==0){
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new EmptyFragment()).commit();
         }
+        databaseHelper.close();
     }
 
 //    public void forImage(){

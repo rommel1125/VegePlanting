@@ -44,6 +44,7 @@ public class PlanItemActivity extends AppCompatActivity {
     private String count;
     private String dateToday;
     private int id;
+    private String description;
     private String harvestDate;
     private DatabaseHelper databaseHelper;
 
@@ -107,6 +108,7 @@ public class PlanItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(PlanItemActivity.this, CalendarActivity.class);
+                i.putExtra("vegeid",id);
                 startActivity(i);
             }
         });
@@ -147,7 +149,7 @@ public class PlanItemActivity extends AppCompatActivity {
                                 noteEdit.setError("Cannot be empty !");
                                 noteEdit.requestFocus();
                             } else {
-                                //DB INSERT NOTE
+//DB INSERT NOTE
                                 try {
                                     databaseHelper.insertNote(name, noteEdit.getText().toString().trim(),
                                             dateView.getText().toString().trim(),
@@ -203,8 +205,33 @@ public class PlanItemActivity extends AppCompatActivity {
         });
 
 //ADD TO CALENDAR
-
+        addCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id2 = 0;
+                desc();
+                Cursor cursor = databaseHelper.checkIfAlreadyInsert("SELECT * FROM CALENDAR_TABLE WHERE VEGEID = "+id);
+                while (cursor.moveToNext()){
+                    id2 = cursor.getInt(3);
+                }
+                if (id2 == id){
+                    Toast.makeText(PlanItemActivity.this, "Already added !", Toast.LENGTH_SHORT).show();
+                    databaseHelper.close();
+                }
+                else {
+                    try {
+                        databaseHelper.insertCalendar(dateTxt.getText().toString().trim(), harvestTxt.getText().toString().trim(), id, description);
+                        Toast.makeText(PlanItemActivity.this, "Harvest date added to Calendar", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    databaseHelper.close();
+                }
+            }
+        });
     }
+
+
 
     private void showDialogDelete(int idNote) {
         AlertDialog.Builder dialogDelete = new AlertDialog.Builder(PlanItemActivity.this);
@@ -319,6 +346,49 @@ public class PlanItemActivity extends AppCompatActivity {
             imagePlan.setImageResource(R.drawable.bottlegourdtry);
         } else if (name.equals("BITTER MELON")) {
             imagePlan.setImageResource(R.drawable.bittermelontry);
+        }
+    }
+
+    public void desc(){
+//EGGPLANT
+        if (vegetableName.getText().equals("EGGPLANT")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//TOMATO
+        if (vegetableName.getText().equals("TOMATO")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//OKRA
+        if (vegetableName.getText().equals("OKRA")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//STRING BEANS
+        if (vegetableName.getText().equals("STRING BEANS")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//SQUASH
+        if (vegetableName.getText().equals("SQUASH")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//PARSLEY
+        if (vegetableName.getText().equals("PARSLEY")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//WATER SPINACH
+        if (vegetableName.getText().equals("WATER SPINACH")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//LETTUCE
+        if (vegetableName.getText().equals("LETTUCE")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//BOTTLE GOURD
+        if (vegetableName.getText().equals("BOTTLE GOURD")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
+        }
+//BITTER MELON
+        if (vegetableName.getText().equals("BITTER MELON")){
+            description = "Estimated harvest date of "+vegetableName.getText().toString();
         }
     }
 }

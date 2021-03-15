@@ -37,9 +37,23 @@
             app:anotherMonthsDaysLabelsColor="#0FB158"
             app:headerLabelColor="@color/app_green"
             app:todayLabelColor="#BAFB09"/>
-
-
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EVENT"
+                android:textSize="20dp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="#056100"/>
+            <ListView
+                android:id="@+id/eventListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DESCRIPTION TEXT)");
         db.execSQL("CREATE TABLE " + PLAN_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, DATEPLANTED TEXT, IMAGE BLOB, VEGECOUNT TEXT, HARVESTDATE TEXT)");
-//        db.execSQL("CREATE TABLE " + CALENDAR_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, DATEPLANTED INTEGER, HARVESTDATE INTEGER, )");
+        db.execSQL("CREATE TABLE " + CALENDAR_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, DATEPLANTED TEXT, HARVESTDATE TEXT, VEGEID INTEGER, DESCRIPTION TEXT)");
         db.execSQL("CREATE TABLE " + NOTE_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, VEGENAME TEXT, NOTEDATE TEXT, NOTE TEXT, VEGEID INTEGER)");
         db.execSQL("INSERT INTO " + TABLE_NAME + " (VEGENAME,DESCRIPTION) VALUES ('EGGPLANT','DESCRIPTION\n\n" +
                 "Eggplant, Solanum melongena, is a tropical, herbaceous, perennial plant, closely related to tomato, in the family Solanaceae which is grown for its edible fruit. The plants has a branching stem and simple, long, flat. coarsely lobed leaves which are green in color and are arranged alternately on the branches. The leaves can measure 10 to 20 cm (4–8 in) long and 5 to 10 cm (2–4 in) broad. The plant produces purple flowers which are 3–5 cm (1.2–2.0 in) in diameter. The fruit is a large, fleshy ovoid berry which can reach 40 cm (15.7 in) in length, with glossy smooth skin and numerous small seeds. The color of the fruit is variable and can be white, green, yellow, purple or black. Eggplants can reach up to 1.5 m (4.9 ft) in height and although they are perennial plants, they are most commonly grown as annuals. Eggplant may also be referred to as aubergine or guinea squash and originates from the Indian subcontinent.\n" +
@@ -197,6 +197,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteNote(int id, int vegeid) {
         SQLiteDatabase database = this.getWritableDatabase();
         String sql = "DELETE FROM " + NOTE_TABLE + " WHERE ID=? AND VEGEID=?";
+
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindDouble(1, (double) id);
+        statement.bindDouble(2, (double) vegeid);
+
+        statement.execute();
+        database.close();
+    }
+
+    public void insertCalendar(String datePlanted, String harvestDate, int vegeID, String description) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "INSERT INTO " + CALENDAR_TABLE + " VALUES(NULL,?,?,?,?)";
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+
+        statement.bindString(1, datePlanted);
+        statement.bindString(2, harvestDate);
+        statement.bindDouble(3, vegeID);
+        statement.bindString(4, description);
+
+        statement.executeInsert();
+    }
+
+    public Cursor checkIfAlreadyInsert(String sql){
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.rawQuery(sql,null);
+    }
+
+    public void deleteCalendar(int id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "DELETE FROM " + CALENDAR_TABLE + " WHERE VEGEID=?";
+
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindDouble(1, (double) id);
+
+        statement.execute();
+        database.close();
+    }
+    public void deleteNote2(int id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "DELETE FROM " + NOTE_TABLE + " WHERE VEGEID=?";
+
+        SQLiteStatement statement = database.compileStatement(sql);
+        statement.clearBindings();
+        statement.bindDouble(1, (double) id);
+
+        statement.execute();
+        database.close();
+    }
+
+    public Cursor getCalendarEvent(String sql){
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.rawQuery(sql,null);
+    }
+
+
+    public void deleteEvent(int id, int vegeid) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        String sql = "DELETE FROM " + CALENDAR_TABLE + " WHERE ID=? AND VEGEID=?";
 
         SQLiteStatement statement = database.compileStatement(sql);
         statement.clearBindings();
