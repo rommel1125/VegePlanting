@@ -20,11 +20,11 @@ public class AppIntroActivity extends AppIntro {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_app_intro);
         Intro();
-        addSlide(AppIntroFragment.newInstance("Vegetable Planting Tutorial","This is some of common vegetable in the philippines that you need to plant and give the vitamins you need in your body.",R.mipmap.ic_vegetable_icon, ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
-        addSlide(AppIntroFragment.newInstance("Why this app?","This application guide you to plant a vegetable . Plus its easy and user friendly User interface.",R.mipmap.ic_vegetable_icon,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
-        addSlide(AppIntroFragment.newInstance("How does it work?","Vegetable planting tutorial application show the documents or video tutorial to guide everyone of us. And this application works in offline mode and online mode",R.mipmap.ic_vegetable_icon,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
-        addSlide(AppIntroFragment.newInstance("Discover even more.","Add daily note to see the progress of your vegetable",R.mipmap.ic_vegetable_icon,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
-        addSlide(AppIntroFragment.newInstance("Lets get started","now let's do planting of vegetable. You can use this application to discover how the vegetable grow.",R.mipmap.ic_vegetable_icon,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
+        addSlide(AppIntroFragment.newInstance("Vegetable Planting Tutorial","This is some of common vegetable in the philippines that you need to plant and give the vitamins you need in your body.",R.drawable.front, ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
+        addSlide(AppIntroFragment.newInstance("Why this app?","This application guide you to plant a vegetable . Plus its easy and user friendly User interface.",R.drawable.whythisapp,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
+        addSlide(AppIntroFragment.newInstance("How does it work?","Vegetable planting tutorial application show the documents or video tutorial to guide everyone of us. And this application works in offline mode and online mode",R.drawable.howdoesitwork,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
+        addSlide(AppIntroFragment.newInstance("Discover even more.","Add daily note to see the progress of your vegetable",R.drawable.notes,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
+        addSlide(AppIntroFragment.newInstance("Lets get started","now let's do planting of vegetable. You can use this application to discover how the vegetable grow.",R.drawable.lastpage,ContextCompat.getColor(getApplicationContext(), R.color.bg_green)));
     }
 
     @Override
